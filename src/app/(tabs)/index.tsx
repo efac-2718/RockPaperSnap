@@ -10,7 +10,7 @@ const COLORS = {
     rock: '#EF4444',
     paper: '#0D9488',
     scissors: '#D97706',
-    vs: '#6366F0',
+    vs: '#6366F1',
     win: '#0D9488',
     draw: '#D97706',
     loss: '#EF4444',
@@ -63,7 +63,7 @@ export default function PlayScreen() {
     return (
         <View style={styles.container}>
             <Text style={styles.header}>RPS Showdown</Text>
-            <Text style={styles.subtitle}>Rock \u22c5 Paper \u22c5 Scissors</Text>
+            <Text style={styles.subtitle}>{'Rock \u00b7 Paper \u00b7 Scissors'}</Text>
 
             <View style={styles.scoreboard}>
                 <View style={styles.scoreColumn}>
@@ -82,52 +82,55 @@ export default function PlayScreen() {
                 </View>
             </View>
 
-            <View style={styles.playerSection}>
-                <Text style={styles.playerTitle}>YOU</Text>
-                <View style={[
-                    styles.emojiCircle,
-                    userChoice && { borderColor: userChoice.color, backgroundColor: `${userChoice.color}15` }
-                ]}
-                >
-                    <Text style={styles.emojiText}>{userChoice ? userChoice.emoji : '❔'}</Text>
+            <View style={styles.arena}>
+                <View style={styles.playerSection}>
+                    <Text style={styles.playerTitle}>YOU</Text>
+                    <View style={[
+                        styles.emojiCircle,
+                        userChoice && { borderColor: userChoice.color, backgroundColor: `${userChoice.color}15` }
+                    ]}
+                    >
+                        <Text style={styles.emojiText}>{userChoice ? userChoice.emoji : '❓'}</Text>
+                    </View>
+                </View>
+
+                <View style={styles.vsBadge}>
+                    <Text style={styles.vsText}>VS</Text>
+                </View>
+
+                <View style={styles.playerSection}>
+                    <Text style={styles.playerTitle}>COMPUTER</Text>
+                    <View style={[
+                        styles.emojiCircle,
+                        computerChoice && { borderColor: computerChoice.color, backgroundColor: `${computerChoice.color}15` }
+                    ]}
+                    >
+                        <Text style={styles.emojiText}>{computerChoice ? computerChoice.emoji : '❓'}</Text>
+                    </View>
                 </View>
             </View>
 
-            <View style={styles.vsBadge}>
-                <Text style={styles.vsText}>VS</Text>
+            <View style={[styles.resultContainer, { borderColor: `${resultColor}55` }]}>
+                <Text style={[styles.resultText, { color: resultColor }]}>{result}</Text>
             </View>
 
-            <View style={styles.playerSection}>
-                <Text style={styles.playerTitle}>COMPUTER</Text>
-                <View style={[
-                    styles.emojiCircle,
-                    computerChoice && { borderColor: computerChoice.color, backgroundColor: `${computerChoice.color}15` }
-                ]}>
-                    <Text style={styles.emojiText}>{computerChoice ? computerChoice.emoji : '❔'}</Text>
-                </View>
+            <Text style={styles.instruction}>Choose Your Weapon</Text>
+
+            <View style={styles.buttonContainer}>
+                {CHOICES.map((choice) => (
+                    <TouchableOpacity
+                        key={choice.name}
+                        style={[styles.button, { borderBottomColor: choice.color }]}
+                        activeOpacity={0.75}
+                        onPress={() => playGame(choice)}
+                    >
+                        <Text style={styles.buttonEmoji}>{choice.emoji}</Text>
+                        <Text style={styles.buttonText}>{choice.name}</Text>
+                    </TouchableOpacity>
+                ))}
             </View>
-
-        <View style={[styles.resultContainer, { borderColor: `${resultColor}55` }]}>
-            <Text style={[styles.resultText, { color: resultColor }]}>{result}</Text>
         </View>
-
-        <Text style={styles.instruction}>Choose Your Weapon:</Text>
-
-        <View style={styles.buttonContainer}>
-            {CHOICES.map((choice) => (
-                <TouchableOpacity
-                    key={choice.name}
-                    style={[styles.button, { borderBottomColor: choice.color }]}
-                    activeOpacity={0.75}
-                    onPress={() => playGame(choice)}
-                >
-                    <Text style={styles.buttonEmoji}>{choice.emoji}</Text>
-                    <Text style={styles.buttonText}>{choice.name}</Text>
-                </TouchableOpacity>
-            ))}
-        </View>
-        </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -192,7 +195,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderWidth: 1,
         borderColor: COLORS.border,
-        marginBottom: 18,
+        marginBottom: 10,
     },
     playerSection: {
         flex: 1,
@@ -240,15 +243,12 @@ const styles = StyleSheet.create({
     },
     resultText: {
         fontSize: 22,
-        fontWeight: '800',
-        color: COLORS.text,
-        marginBottom: 10,
-        textTransform: 'uppercase',
-        letterSpacing: 1,
+        fontWeight: '900',
+        textAlign: 'center',
     },
     instruction: {
         fontSize: 15,
-        fontWeight: '900',
+        fontWeight: '800',
         color: COLORS.text,
         marginBottom: 10,
         textTransform: 'uppercase',
