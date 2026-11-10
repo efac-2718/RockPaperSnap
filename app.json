@@ -12,7 +12,8 @@
         "foregroundImage": "./assets/images/appIcon-padded.png",
         "backgroundColor": "#FFFFFF"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.efac_2781.RockPaperSnap"
     },
     "web": {
       "output": "single",
@@ -36,6 +37,16 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "c8762e1f-25f2-45a4-a7ed-35bee7460f85"
+      }
     }
   }
 }
